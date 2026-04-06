@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HireSense | AI Interview Simulation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#85adff",
+              "tertiary-fixed-dim": "#e28ce9",
+              "on-error": "#490006",
+              "background": "#060e20",
+              "tertiary-container": "#f199f7",
+              "tertiary": "#fbabff",
+              "error-dim": "#d7383b",
+              "surface-bright": "#1f2b49",
+              "secondary-fixed": "#69f6b8",
+              "secondary-dim": "#58e7ab",
+              "surface-variant": "#192540",
+              "surface-container-lowest": "#000000",
+              "on-tertiary-container": "#5e106a",
+              "on-tertiary-fixed-variant": "#681c73",
+              "secondary-container": "#006c49",
+              "on-primary-fixed-variant": "#002a62",
+              "on-primary-fixed": "#000000",
+              "tertiary-fixed": "#f199f7",
+              "secondary-fixed-dim": "#58e7ab",
+              "surface-container-high": "#141f38",
+              "outline-variant": "#40485d",
+              "tertiary-dim": "#e28ce9",
+              "surface-dim": "#060e20",
+              "primary-container": "#6e9fff",
+              "on-primary": "#002c66",
+              "error": "#ff716c",
+              "on-surface": "#dee5ff",
+              "on-secondary-fixed-variant": "#006544",
+              "inverse-surface": "#faf8ff",
+              "primary-dim": "#699cff",
+              "on-primary-container": "#002150",
+              "surface-container-low": "#091328",
+              "secondary": "#69f6b8",
+              "error-container": "#9f0519",
+              "on-error-container": "#ffa8a3",
+              "on-tertiary-fixed": "#3e0047",
+              "surface": "#060e20",
+              "outline": "#6d758c",
+              "inverse-primary": "#005bc4",
+              "primary-fixed-dim": "#5391ff",
+              "on-secondary-container": "#e1ffec",
+              "surface-container-highest": "#192540",
+              "on-surface-variant": "#a3aac4",
+              "on-secondary-fixed": "#00452d",
+              "surface-tint": "#85adff",
+              "on-tertiary": "#691d74",
+              "surface-container": "#0f1930",
+              "primary-fixed": "#6e9fff",
+              "inverse-on-surface": "#4d556b",
+              "on-background": "#dee5ff",
+              "on-secondary": "#005a3c"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #060e20;
+            color: #dee5ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(25, 37, 64, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .ai-pulse {
+            box-shadow: 0 0 0 0 rgba(105, 246, 184, 0.4);
+        }
+        .mic-glow {
+            box-shadow: 0 0 20px rgba(133, 173, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#060e20] flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-[#85adff] tracking-tighter font-['Manrope']">HireSense</span>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<span class="font-['Manrope'] font-bold tracking-tight text-[#dee5ff]">Frontend Engineering - Medium</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-surface-variant/40 px-4 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<span class="font-['Manrope'] font-bold tracking-tight text-[#dee5ff]">00:15:00</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-[#a3aac4] hover:text-[#dee5ff] transition-colors duration-200 p-2 hover:bg-[#1f2b49] rounded-lg">settings</button>
+<button class="material-symbols-outlined text-[#a3aac4] hover:text-[#dee5ff] transition-colors duration-200 p-2 hover:bg-[#1f2b49] rounded-lg">help</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional user profile headshot with soft studio lighting and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBELPz57PETebue0LgQG8goE1damEGH5czCBdy7yYgdj7wiry-H0_nnBdSY3rqXspMiaCTCMywE2o0wvCjlikNTnZ6bCU0zswuvdm-eLfUfCbab9BIZJZkmpx3xUQCEeFbQi5bccy8lbVcB_pfE0kGVEZ8oG3o6CUT7tujveWn6MHbbeouv5rE3tTFb02NJ8H51JEfjr06sBFTdn4jK0uuu1qpYvi4IWulXHHYQwv54TwZY_0L69NyChDkY6ScpZcUb09zpDasZg1E"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex h-screen pt-20">
+<!-- Side Navigation Bar (Progress Nodes) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-20 bg-[#091328] w-64 border-r border-[#40485d]/15 shadow-[40px_0_40px_rgba(25,37,64,0.08)]">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-lg font-bold text-[#dee5ff] font-['Manrope']">Interview Progress</h2>
+</div>
+<p class="font-['Inter'] text-sm font-medium text-[#a3aac4]">20% Completed</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Completed -->
+<div class="flex items-center gap-3 text-[#a3aac4] p-3 mx-2 hover:bg-[#1f2b49] rounded-lg transition-all duration-300 ease-in-out cursor-default opacity-60">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-['Inter'] text-sm font-medium">Introduction</span>
+</div>
+<!-- Active -->
+<div class="flex items-center gap-3 bg-[#141f38] text-[#85adff] rounded-lg p-3 mx-2 transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+<span class="font-['Inter'] text-sm font-medium">Technical Core</span>
+</div>
+<!-- Pending -->
+<div class="flex items-center gap-3 text-[#a3aac4] p-3 mx-2 hover:bg-[#1f2b49] rounded-lg transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined">pending</span>
+<span class="font-['Inter'] text-sm font-medium">Problem Solving</span>
+</div>
+<div class="flex items-center gap-3 text-[#a3aac4] p-3 mx-2 hover:bg-[#1f2b49] rounded-lg transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined">pending</span>
+<span class="font-['Inter'] text-sm font-medium">System Design</span>
+</div>
+<div class="flex items-center gap-3 text-[#a3aac4] p-3 mx-2 hover:bg-[#1f2b49] rounded-lg transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined">pending</span>
+<span class="font-['Inter'] text-sm font-medium">Closing</span>
+</div>
+</nav>
+<div class="p-6 mt-auto space-y-4">
+<button class="w-full py-2 px-4 rounded-lg bg-surface-container-high text-primary text-xs font-bold hover:bg-surface-bright transition-colors uppercase tracking-wider">View Guidelines</button>
+<div class="border-t border-outline-variant/10 pt-4 space-y-1">
+<div class="flex items-center gap-3 text-[#a3aac4] p-2 hover:bg-[#1f2b49] rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-sm">headset_mic</span>
+<span class="text-xs">Support</span>
+</div>
+<div class="flex items-center gap-3 text-[#a3aac4] p-2 hover:bg-[#1f2b49] rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="text-xs">Exit</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col overflow-hidden relative">
+<div class="flex-1 flex items-center justify-center p-12">
+<!-- Question Card -->
+<div class="max-w-3xl w-full">
+<div class="mb-12 text-center">
+<span class="text-xs font-bold tracking-[0.2em] text-primary/60 uppercase mb-4 block">Current Topic: React Fundamentals</span>
+<h1 class="text-4xl font-extrabold text-[#dee5ff] font-['Manrope'] leading-tight tracking-tight">
+                            How would you explain the difference between a <span class="text-primary">virtual DOM</span> and the <span class="text-primary">real DOM</span> in React?
+                        </h1>
+</div>
+<!-- AI Visualizer Area -->
+<div class="flex justify-center mb-16">
+<div class="relative w-64 h-32 flex items-center justify-center">
+<div class="flex items-center gap-1.5 h-12">
+<div class="w-1.5 bg-secondary/80 rounded-full h-4 animate-bounce" style="animation-delay: 0.1s"></div>
+<div class="w-1.5 bg-secondary rounded-full h-8 animate-bounce" style="animation-delay: 0.2s"></div>
+<div class="w-1.5 bg-secondary/90 rounded-full h-12 animate-bounce" style="animation-delay: 0.3s"></div>
+<div class="w-1.5 bg-secondary/70 rounded-full h-6 animate-bounce" style="animation-delay: 0.4s"></div>
+<div class="w-1.5 bg-secondary/50 rounded-full h-10 animate-bounce" style="animation-delay: 0.5s"></div>
+<div class="w-1.5 bg-secondary rounded-full h-8 animate-bounce" style="animation-delay: 0.2s"></div>
+<div class="w-1.5 bg-secondary/90 rounded-full h-12 animate-bounce" style="animation-delay: 0.3s"></div>
+<div class="w-1.5 bg-secondary/70 rounded-full h-6 animate-bounce" style="animation-delay: 0.4s"></div>
+</div>
+<div class="absolute inset-0 bg-secondary/5 blur-[80px] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Control Panel -->
+<div class="p-8 glass-panel border-t border-outline-variant/10">
+<div class="max-w-6xl mx-auto flex items-center justify-between">
+<!-- Toggle Controls -->
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-surface-container-lowest/40 p-1 rounded-full border border-outline-variant/20">
+<button class="flex items-center gap-2 px-5 py-2 rounded-full bg-primary text-on-primary text-sm font-bold shadow-lg transition-all">
+<span class="material-symbols-outlined text-sm">mic</span>
+                                Voice
+                            </button>
+<button class="flex items-center gap-2 px-5 py-2 rounded-full text-on-surface-variant text-sm font-medium hover:text-on-surface transition-all">
+<span class="material-symbols-outlined text-sm">keyboard</span>
+                                Type
+                            </button>
+</div>
+</div>
+<!-- Main Action -->
+<div class="absolute left-1/2 -translate-x-1/2 -translate-y-12">
+<button class="group relative flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center mic-glow transform group-hover:scale-105 transition-all duration-300">
+<span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest text-primary animate-pulse">Start Recording</span>
+</button>
+</div>
+<!-- Right Controls -->
+<div class="flex items-center gap-4">
+<button class="px-8 py-3 rounded-xl bg-surface-container-highest text-on-surface-variant font-bold hover:bg-surface-bright transition-all">
+                            Skip Question
+                        </button>
+<button class="px-10 py-3 rounded-xl bg-primary text-on-primary font-black shadow-lg hover:shadow-primary/20 transition-all scale-95 active:scale-90">
+                            Submit Answer
+                        </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Side Panel (AI Indicators) -->
+<aside class="w-80 bg-[#091328] border-l border-[#40485d]/15 p-6 space-y-8 flex flex-col">
+<div class="space-y-4">
+<h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-[0.2em]">Live Analysis</h3>
+<!-- AI Feedback Card 1 -->
+<div class="p-4 rounded-xl bg-surface-container-high border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-2 h-2 rounded-full bg-secondary ai-pulse"></div>
+<span class="text-sm font-semibold text-secondary">Listening...</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                        Detecting vocal patterns. Please speak clearly for the most accurate transcription.
+                    </p>
+</div>
+<!-- AI Feedback Card 2 -->
+<div class="p-4 rounded-xl bg-surface-container-high border border-outline-variant/10">
+<div class="flex items-center justify-between mb-3">
+<span class="text-sm font-semibold text-on-surface">Speech Pace</span>
+<span class="text-xs font-bold text-primary">Optimal</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[70%] h-full bg-primary rounded-full"></div>
+</div>
+<p class="mt-3 text-xs text-on-surface-variant leading-relaxed">
+                        Your pace is steady. Maintain this rhythm for better clarity.
+                    </p>
+</div>
+<!-- AI Feedback Card 3 -->
+<div class="p-4 rounded-xl bg-surface-container-high border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-tertiary text-sm">neurology</span>
+<span class="text-sm font-semibold text-on-surface">Content Relevance</span>
+</div>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-2 py-1 rounded bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">React</span>
+<span class="px-2 py-1 rounded bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">DOM</span>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<div class="p-4 rounded-2xl bg-gradient-to-br from-surface-variant to-surface-container-low border border-outline-variant/20">
+<p class="text-xs font-medium text-on-surface-variant italic leading-relaxed">
+                        "Take a deep breath. Focus on explaining the 'Reconciliation' process if you get stuck."
+                    </p>
+<div class="mt-3 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">auto_awesome</span>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase">HireSense AI Coach</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

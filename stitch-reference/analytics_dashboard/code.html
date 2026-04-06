@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-container": "#f199f7",
+            "on-secondary-container": "#e1ffec",
+            "error-container": "#9f0519",
+            "surface-container-low": "#091328",
+            "surface-container-high": "#141f38",
+            "tertiary-dim": "#e28ce9",
+            "on-secondary": "#005a3c",
+            "surface-dim": "#060e20",
+            "on-background": "#dee5ff",
+            "primary": "#85adff",
+            "surface": "#060e20",
+            "on-primary-container": "#002150",
+            "surface-bright": "#1f2b49",
+            "inverse-surface": "#faf8ff",
+            "on-secondary-fixed": "#00452d",
+            "on-tertiary-container": "#5e106a",
+            "primary-fixed": "#6e9fff",
+            "on-primary-fixed-variant": "#002a62",
+            "secondary-container": "#006c49",
+            "outline-variant": "#40485d",
+            "on-primary": "#002c66",
+            "on-error-container": "#ffa8a3",
+            "secondary-fixed-dim": "#58e7ab",
+            "on-secondary-fixed-variant": "#006544",
+            "error-dim": "#d7383b",
+            "tertiary-fixed-dim": "#e28ce9",
+            "primary-dim": "#699cff",
+            "outline": "#6d758c",
+            "on-surface-variant": "#a3aac4",
+            "primary-fixed-dim": "#5391ff",
+            "on-surface": "#dee5ff",
+            "surface-tint": "#85adff",
+            "error": "#ff716c",
+            "background": "#060e20",
+            "on-primary-fixed": "#000000",
+            "inverse-on-surface": "#4d556b",
+            "on-error": "#490006",
+            "surface-variant": "#192540",
+            "surface-container-highest": "#192540",
+            "tertiary": "#fbabff",
+            "inverse-primary": "#005bc4",
+            "secondary": "#69f6b8",
+            "primary-container": "#6e9fff",
+            "on-tertiary-fixed": "#3e0047",
+            "secondary-dim": "#58e7ab",
+            "secondary-fixed": "#69f6b8",
+            "on-tertiary-fixed-variant": "#681c73",
+            "tertiary-fixed": "#f199f7",
+            "surface-container-lowest": "#000000",
+            "on-tertiary": "#691d74",
+            "surface-container": "#0f1930"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-panel {
+      background: rgba(25, 37, 64, 0.6);
+      backdrop-filter: blur(20px);
+    }
+    .score-gauge {
+      background: conic-gradient(from 0deg, #85adff 85%, #141f38 0%);
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060e20; }
+    ::-webkit-scrollbar-thumb { background: #40485d; border-radius: 10px; }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary-container">
+<!-- TopNavBar Implementation -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-[#060e20] shadow-[0_0_40px_rgba(25,37,64,0.08)]">
+<div class="text-2xl font-black tracking-tighter text-[#dee5ff] font-headline">HireSense</div>
+<nav class="hidden md:flex space-x-8 h-full items-center">
+<a class="font-headline font-bold tracking-tight text-[#a3aac4] hover:text-[#dee5ff] transition-colors duration-300 active:scale-95 transition-transform" href="#">Dashboard</a>
+<a class="font-headline font-bold tracking-tight text-[#dee5ff] border-b-2 border-[#85adff] pb-1 hover:text-[#dee5ff] transition-colors duration-300 active:scale-95 transition-transform" href="#">Analytics</a>
+<a class="font-headline font-bold tracking-tight text-[#a3aac4] hover:text-[#dee5ff] transition-colors duration-300 active:scale-95 transition-transform" href="#">Reports</a>
+<a class="font-headline font-bold tracking-tight text-[#a3aac4] hover:text-[#dee5ff] transition-colors duration-300 active:scale-95 transition-transform" href="#">Candidates</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#85adff] cursor-pointer hover:text-[#dee5ff] transition-colors">notifications</span>
+<span class="material-symbols-outlined text-[#85adff] cursor-pointer hover:text-[#dee5ff] transition-colors">settings</span>
+</div>
+<img alt="Recruiter Profile" class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="Professional headshot of a recruitment specialist in a clean studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIE_tSuwCPhCCFmDB9DooawrsZFg1rNzlVfyzU8fXTQm6dmA8zuOY-hKyB91giyHdoALR0xelV0ucxZsHaI9VaX0RA_-VecAEBRf_DXx3DXpSMuRFuATu3Jxu70XNBN_oqtXxCjsqSr-iRlkOEB13OyZ3699cGuGf75hQF89cH4WrEvaybkA4wEdTFRydfYaCupP1TvfB9M3D1N4B2fHhQUudJZLyzWFI60FhDXXEZM0VoUyroJUAUZsk9hMfRr9otWuXtCDRvwGc"/>
+</div>
+</header>
+<!-- SideNavBar Implementation -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#091328] flex flex-col p-4 z-40">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3 mb-2">
+<img alt="Interview Session" class="w-10 h-10 rounded-lg object-cover" data-alt="Close up of a professional woman smiling during a video call interview with soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPjy0FbmqvLkYwjumaf0SoxvHeJ3OtIyXlYo3CBlImMYfC5mtMKsfmdUl9n1TgiCRTbMYSLGwEfUMkDH3IEQNjevvbtLZaeVpORE0N6IYQafbgO1Y8tNwFns9gT3J74LZt5hWfxl6hUyEAlc4bM8nHLrhBuCU3CEw1PGTlFuQ67IWHM3_gH755Nt8umBxVcesO_9-dzuQa90-6n4iAk2MRDE3vmJkPnofpSjajSCfeQW7ZEzi4TVVxtxQkcrmX1XCAnE3wko6a6rE"/>
+<div>
+<div class="text-[#dee5ff] font-bold font-headline text-sm leading-tight">Sr. Architect Role</div>
+<div class="text-[#a3aac4] text-xs">Alex Rivera</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-3 px-3 py-2 text-[#a3aac4] hover:bg-[#1f2b49] hover:text-[#dee5ff] transition-all active:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="font-label text-sm">Overview</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#85adff] font-bold bg-[#141f38] rounded-lg transition-all active:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span class="font-label text-sm">Performance</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#a3aac4] hover:bg-[#1f2b49] hover:text-[#dee5ff] transition-all active:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined text-lg">psychology</span>
+<span class="font-label text-sm">Skill Gap</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#a3aac4] hover:bg-[#1f2b49] hover:text-[#dee5ff] transition-all active:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined text-lg">diversity_3</span>
+<span class="font-label text-sm">Culture Fit</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#a3aac4] hover:bg-[#1f2b49] hover:text-[#dee5ff] transition-all active:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined text-lg">verified</span>
+<span class="font-label text-sm">Final Verdict</span>
+</div>
+</nav>
+<button class="mt-auto w-full py-2 bg-surface-container-high text-primary rounded-lg font-bold text-sm hover:bg-surface-bright transition-colors">
+      Export Report
+    </button>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<!-- Hero Analytics Section -->
+<div class="mb-12 flex flex-col md:flex-row items-center gap-12">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full score-gauge opacity-20"></div>
+<div class="absolute inset-2 rounded-full bg-surface"></div>
+<div class="relative text-center">
+<div class="text-5xl font-black font-headline text-on-surface">8.5</div>
+<div class="text-on-surface-variant font-label uppercase tracking-widest text-[10px]">Hireability Score</div>
+</div>
+<!-- Glow effect -->
+<div class="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(133,173,255,0.15)] pointer-events-none"></div>
+</div>
+<div class="flex-1 space-y-4 text-center md:text-left">
+<h1 class="text-4xl md:text-5xl font-black font-headline tracking-tighter text-on-surface">
+          Congratulations, Alex!
+        </h1>
+<p class="text-lg text-on-surface-variant max-w-2xl leading-relaxed">
+          Your interview performance ranks in the <span class="text-secondary font-bold">top 4%</span> of applicants for the Senior Architect role. The AI has identified significant strengths in technical depth and leadership readiness.
+        </p>
+</div>
+</div>
+<!-- Metric Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="text-on-surface-variant text-xs font-label uppercase tracking-wider">Technical Depth</div>
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<div class="text-3xl font-bold font-headline text-on-surface">9.0<span class="text-sm text-on-surface-variant font-normal">/10</span></div>
+<div class="mt-4 h-8 flex items-end gap-1">
+<div class="flex-1 bg-primary/20 h-2 rounded-full"></div>
+<div class="flex-1 bg-primary/40 h-4 rounded-full"></div>
+<div class="flex-1 bg-primary/60 h-3 rounded-full"></div>
+<div class="flex-1 bg-primary/80 h-6 rounded-full"></div>
+<div class="flex-1 bg-primary h-7 rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="text-on-surface-variant text-xs font-label uppercase tracking-wider">Communication</div>
+<span class="material-symbols-outlined text-primary">record_voice_over</span>
+</div>
+<div class="text-3xl font-bold font-headline text-on-surface">7.2<span class="text-sm text-on-surface-variant font-normal">/10</span></div>
+<div class="mt-4 h-8 flex items-end gap-1">
+<div class="flex-1 bg-primary/20 h-4 rounded-full"></div>
+<div class="flex-1 bg-primary/40 h-5 rounded-full"></div>
+<div class="flex-1 bg-primary/60 h-2 rounded-full"></div>
+<div class="flex-1 bg-primary/80 h-3 rounded-full"></div>
+<div class="flex-1 bg-primary/40 h-4 rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="text-on-surface-variant text-xs font-label uppercase tracking-wider">Confidence</div>
+<span class="material-symbols-outlined text-primary">bolt</span>
+</div>
+<div class="text-3xl font-bold font-headline text-on-surface">8.4<span class="text-sm text-on-surface-variant font-normal">/10</span></div>
+<div class="mt-4 h-8 flex items-end gap-1">
+<div class="flex-1 bg-primary/20 h-2 rounded-full"></div>
+<div class="flex-1 bg-primary/40 h-3 rounded-full"></div>
+<div class="flex-1 bg-primary/60 h-6 rounded-full"></div>
+<div class="flex-1 bg-primary/80 h-5 rounded-full"></div>
+<div class="flex-1 bg-primary h-8 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Detailed Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Transcripts and AI Feedback -->
+<div class="lg:col-span-8 space-y-8">
+<div class="bg-surface-container-low p-8 rounded-2xl">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold font-headline text-on-surface">Question Breakdown</h2>
+<div class="px-3 py-1 bg-surface-variant rounded-full text-[10px] font-bold text-primary tracking-widest uppercase">Question 3 of 12</div>
+</div>
+<div class="mb-8">
+<h3 class="text-on-surface-variant font-bold mb-3 italic">"Explain the Virtual DOM and why React uses it."</h3>
+<div class="p-6 bg-surface-container-highest rounded-xl leading-relaxed text-on-surface border-l-4 border-primary">
+              "So, <span class="bg-error/20 text-error-dim px-1 rounded">um</span>, the Virtual DOM is like a copy of the actual DOM. React uses it to, <span class="bg-error/20 text-error-dim px-1 rounded">uh</span>, optimize rendering. It basically looks for differences between the old and new version, and <span class="bg-error/20 text-error-dim px-1 rounded">um</span>, only updates what's necessary."
+            </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-5 rounded-xl border border-secondary/10 bg-secondary/5">
+<div class="flex items-center gap-2 mb-2 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold text-xs uppercase tracking-wider">Strengths</span>
+</div>
+<p class="text-sm text-on-surface">Accurately identified the reconciliation process and performance optimization as key benefits.</p>
+</div>
+<div class="p-5 rounded-xl border border-tertiary/10 bg-tertiary/5">
+<div class="flex items-center gap-2 mb-2 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-bold text-xs uppercase tracking-wider">Improvements</span>
+</div>
+<p class="text-sm text-on-surface">Could expand on the 'diffing algorithm' and mention the Fibers architecture for extra depth.</p>
+</div>
+</div>
+</div>
+<!-- AI Improved Answer Card -->
+<div class="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-[#141f38] to-[#2a1438] shadow-xl">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-9xl">auto_awesome</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-container">psychology</span>
+</div>
+<h2 class="text-xl font-bold font-headline text-on-surface">AI Recommended Pitch</h2>
+</div>
+<p class="text-on-surface leading-loose text-lg font-medium italic">
+              "The Virtual DOM is an in-memory representation of the Real DOM. React uses it to perform efficient UI updates through a process called Reconciliation. By minimizing direct manipulation of the browser DOM—which is computationally expensive—React ensures 60fps performance even in complex, data-heavy applications using its efficient diffing algorithm."
+            </p>
+<div class="mt-8 flex gap-4">
+<button class="bg-primary px-6 py-2 rounded-lg font-bold text-on-primary text-sm flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy to Clipboard
+              </button>
+<button class="bg-surface-variant px-6 py-2 rounded-lg font-bold text-primary text-sm hover:bg-surface-bright transition-colors">
+                Practice Again
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Skills and Suggestions -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Radar Chart Placeholder -->
+<div class="bg-surface-container-high p-6 rounded-2xl">
+<h2 class="text-lg font-bold font-headline text-on-surface mb-6">Skill Breakdown</h2>
+<div class="aspect-square relative flex items-center justify-center">
+<!-- Asymmetrical Grid Background -->
+<div class="absolute inset-0 flex items-center justify-center opacity-10">
+<div class="w-full h-full border border-primary rounded-full"></div>
+<div class="absolute w-2/3 h-2/3 border border-primary rounded-full"></div>
+<div class="absolute w-1/3 h-1/3 border border-primary rounded-full"></div>
+</div>
+<!-- Custom Radar Shape (SVG) -->
+<svg class="w-full h-full drop-shadow-[0_0_10px_rgba(133,173,255,0.3)]" viewbox="0 0 100 100">
+<polygon fill="none" points="50,10 85,35 75,85 25,85 15,35" stroke="#40485d" stroke-width="0.5"></polygon>
+<polygon fill="rgba(133,173,255,0.4)" points="50,20 78,40 70,80 30,75 22,45" stroke="#85adff" stroke-width="1"></polygon>
+</svg>
+<!-- Labels -->
+<div class="absolute top-2 text-[10px] font-black uppercase text-on-surface-variant">Architecture</div>
+<div class="absolute right-2 top-1/3 text-[10px] font-black uppercase text-on-surface-variant">DSA</div>
+<div class="absolute right-10 bottom-4 text-[10px] font-black uppercase text-on-surface-variant">React</div>
+<div class="absolute left-10 bottom-4 text-[10px] font-black uppercase text-on-surface-variant">Soft Skills</div>
+<div class="absolute left-2 top-1/3 text-[10px] font-black uppercase text-on-surface-variant">Security</div>
+</div>
+</div>
+<!-- Actionable Suggestions -->
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h2 class="text-lg font-bold font-headline text-on-surface mb-6">Next Steps</h2>
+<ul class="space-y-4">
+<li class="flex gap-4 group">
+<div class="flex-shrink-0 w-8 h-8 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm text-primary group-hover:text-on-primary">school</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Refresh System Design Patterns</p>
+<p class="text-xs text-on-surface-variant mt-1">Review Micro-frontends and Event-driven architecture for the next round.</p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<div class="flex-shrink-0 w-8 h-8 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm text-primary group-hover:text-on-primary">mic</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Reduce Filler Words</p>
+<p class="text-xs text-on-surface-variant mt-1">You used "um" 14 times. Try pausing for 2 seconds when thinking.</p>
+</div>
+</li>
+<li class="flex gap-4 group">
+<div class="flex-shrink-0 w-8 h-8 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm text-primary group-hover:text-on-primary">diversity_1</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Prepare Leadership Stories</p>
+<p class="text-xs text-on-surface-variant mt-1">Focus on conflict resolution examples for the upcoming culture fit panel.</p>
+</div>
+</li>
+</ul>
+<button class="w-full mt-8 py-3 bg-primary text-on-primary font-bold rounded-xl hover:shadow-[0_0_30px_rgba(133,173,255,0.3)] transition-all">
+            Schedule Mock Interview
+          </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+</button>
+</body></html>
