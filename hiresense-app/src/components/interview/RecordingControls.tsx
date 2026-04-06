@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/Toast";
 
 interface RecordingControlsProps {
   onSkip?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: (data: { mode: "voice" | "type", audioBlob?: Blob, textInput?: string }) => void;
 }
 
 export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) {
@@ -19,9 +19,11 @@ export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [transcript, setTranscript] = useState("");
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<any>(null);
 
   const toggleRecording = async () => {
     if (isRecording) {
@@ -29,12 +31,14 @@ export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) 
       if (mediaRecorderRef.current) {
         mediaRecorderRef.current.stop();
       }
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
       setIsRecording(false);
     } else {
       // Start Recording
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        // Try recording in webm, fallback to whatever browser supports if it fails
         const options = MediaRecorder.isTypeSupported('audio/webm') ? { mimeType: 'audio/webm' } : {};
         const mediaRecorder = new MediaRecorder(stream, options);
         
@@ -51,14 +55,34 @@ export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) 
           const blobMimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp3';
           const blob = new Blob(audioChunksRef.current, { type: blobMimeType });
           setAudioBlob(blob);
-          
-          // Release mic tracks
           stream.getTracks().forEach((track) => track.stop());
         };
 
         mediaRecorder.start();
         setIsRecording(true);
-        setAudioBlob(null); // Clear previous state
+        setAudioBlob(null); 
+        setTranscript("");
+
+        // Start Speech Recognition overlay
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        if (SpeechRecognition) {
+          const recognition = new SpeechRecognition();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = 'en-US';
+
+          recognition.onresult = (event: any) => {
+            let currentTranscript = "";
+            for (let i = 0; i < event.results.length; i++) {
+              currentTranscript += event.results[i][0].transcript;
+            }
+            setTranscript(currentTranscript);
+          };
+
+          recognition.start();
+          recognitionRef.current = recognition;
+        }
+
       } catch (err) {
         console.error("Microphone Access Error:", err);
         alert("Microphone access denied or unavailable. Please check your browser permissions.");
@@ -89,13 +113,16 @@ export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) 
     if (isMenuOpen) setIsMenuOpen(false);
 
     try {
-      // Simulate submission network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      if (onSubmit) {
-        onSubmit();
-      } else {
+      // Simulate submission network delay if no onSubmit handler exists
+      if (!onSubmit) {
+        await new Promise(resolve => setTimeout(resolve, 1500));
         toast("Answer submitted successfully! Loading next question...", "success");
+      } else {
+        await onSubmit({ 
+          mode: inputMode, 
+          audioBlob: audioBlob || undefined, 
+          textInput: inputMode === "voice" ? transcript : textInput 
+        });
       }
       
       // Reset inputs
@@ -152,6 +179,13 @@ export function RecordingControls({ onSkip, onSubmit }: RecordingControlsProps) 
             ? "flex-shrink-0 -translate-y-6 lg:-translate-y-12 px-2" 
             : "flex-[2] px-4 min-w-[200px] lg:px-8"
         )}>
+          {/* Live Captions Overlay */}
+          {isRecording && transcript && (
+            <div className="absolute -top-20 lg:-top-24 left-1/2 -translate-x-1/2 w-max max-w-[300px] lg:max-w-xl bg-surface-container-highest/95 backdrop-blur-md border border-outline-variant/30 shadow-2xl rounded-2xl px-4 py-2 text-center pointer-events-none animate-in fade-in slide-in-from-bottom-4">
+              <p className="text-on-surface text-xs lg:text-sm font-medium italic line-clamp-3">"{transcript}"</p>
+            </div>
+          )}
+
           {inputMode === "voice" ? (
             <button
               onClick={toggleRecording}

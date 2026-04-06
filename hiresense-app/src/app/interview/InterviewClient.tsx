@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/Toast";
 
 export function InterviewClient() {
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [evaluations, setEvaluations] = useState<any[]>([]);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -29,12 +30,60 @@ export function InterviewClient() {
     }
   };
 
-  const handleSubmit = () => {
-    toast("Answer submitted successfully! Loading next question...", "success");
+  const handleSubmit = async (data?: { mode: "voice" | "type", audioBlob?: Blob, textInput?: string }) => {
+    toast("Evaluating your answer via AI...", "info");
+
+    try {
+      if (data && data.mode === "voice" && data.audioBlob) {
+        const formData = new FormData();
+        formData.append("audio", data.audioBlob, "answer.webm");
+        formData.append("question", currentQuestion.question);
+        if (data.textInput) {
+          formData.append("transcript", data.textInput);
+        }
+        
+        const res = await fetch("http://localhost:5000/api/evaluate", {
+          method: "POST",
+          body: formData,
+        });
+
+        const resData = await res.json();
+        if (resData.success) {
+           const evalText = `AI Evaluation Score: ${resData.data.score}/10. Strengths: ${resData.data.strengths}.`;
+           toast(evalText, "success");
+           setEvaluations(prev => [...prev, { question: currentQuestion.question, evaluation: resData.data }]);
+        } else {
+           toast("Analysis failed.", "error");
+        }
+      } else {
+        toast("Answer submitted textually.", "success");
+        setEvaluations(prev => [...prev, { question: currentQuestion.question, evaluation: { score: 7, strengths: "Good effort textual" } }]);
+      }
+    } catch(err) {
+      console.error("AI Evaluation error:", err);
+      toast("Error connecting to AI backend. Check if it's running..", "error");
+    }
+
     if (questionIndex < interviewData.questions.length - 1) {
       setQuestionIndex(prev => prev + 1);
     } else {
-      toast("Interview complete!", "success");
+      toast("Generating your complete final AI Report...", "info");
+      try {
+        const finalRes = await fetch("http://localhost:5000/api/evaluate/report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ evaluations })
+        });
+        const reportData = await finalRes.json();
+        if (reportData.success) {
+          sessionStorage.setItem("hiresense_report", JSON.stringify(reportData.data));
+          toast("Interview complete and Report Built!", "success");
+        } else {
+          toast("Failed to generate report.", "error");
+        }
+      } catch (err) {
+         console.error(err);
+      }
       router.push("/dashboard");
     }
   };

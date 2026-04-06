@@ -20,26 +20,6 @@ const initialMessages: ChatMessage[] = [
   },
 ];
 
-const aiResponses: Record<string, string> = {
-  default:
-    "That's a great question! Based on your interview data, I'd recommend focusing on reducing filler words and strengthening your system design explanations. Want me to elaborate on either topic?",
-  score:
-    "Your hireability score of 8.5/10 puts you in the top 4% of candidates for this role. Your strongest area is Technical Depth (9.0), while Communication (7.2) has the most room for growth.",
-  tips: "Here are my top 3 tips: 1) Replace 'um' with short pauses—it sounds more confident. 2) Structure answers using the STAR method. 3) Practice explaining Virtual DOM concepts without jargon first.",
-  practice:
-    "I'd suggest practicing with these focus areas: Virtual DOM reconciliation, React Fiber architecture, and system design for micro-frontends. Would you like me to generate practice questions?",
-};
-
-function getAiResponse(input: string): string {
-  const lower = input.toLowerCase();
-  if (lower.includes("score") || lower.includes("rating") || lower.includes("performance"))
-    return aiResponses.score;
-  if (lower.includes("tip") || lower.includes("help") || lower.includes("improve"))
-    return aiResponses.tips;
-  if (lower.includes("practice") || lower.includes("prepare") || lower.includes("question"))
-    return aiResponses.practice;
-  return aiResponses.default;
-}
 
 export function FloatingChatButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +32,7 @@ export function FloatingChatButton() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const text = inputValue.trim();
     if (!text) return;
 
@@ -63,21 +43,45 @@ export function FloatingChatButton() {
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInputValue("");
     setIsTyping(true);
 
-    // Simulate AI thinking delay
-    setTimeout(() => {
+    try {
+      // Map previous messages to format backend expects
+      const chatContext = updatedMessages.map(m => ({
+        role: m.role === "ai" ? "assistant" : "user",
+        content: m.text
+      }));
+
+      const res = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: chatContext })
+      });
+
+      const data = await res.json();
+      
       const aiMsg: ChatMessage = {
         id: crypto.randomUUID(),
         role: "ai",
-        text: getAiResponse(text),
+        text: data.success ? data.text : "Sorry, I had an issue connecting to the AI Coach.",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
       setMessages((prev) => [...prev, aiMsg]);
+    } catch (err) {
+      console.error(err);
+      const aiMsg: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "ai",
+        text: "Sorry, the backend server seems to be offline.",
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      };
+      setMessages((prev) => [...prev, aiMsg]);
+    } finally {
       setIsTyping(false);
-    }, 1200 + Math.random() * 800);
+    }
   };
 
   return (

@@ -66,7 +66,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low flex flex-col p-4 z-40">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low flex flex-col p-4 z-40 overflow-y-auto border-r border-outline-variant/[0.15]">
       {/* Session Info */}
       <div className="mb-6 px-2">
         <div className="flex items-center gap-3 mb-2">

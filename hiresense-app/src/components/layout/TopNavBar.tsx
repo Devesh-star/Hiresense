@@ -378,43 +378,11 @@ export function TopNavBar({ variant, onExit, onSupport }: TopNavBarProps) {
           {/* Settings */}
           <div ref={settingsRef} className="relative">
             <button
-              onClick={() => { setShowSettings(!showSettings); setShowNotifications(false); }}
+              onClick={() => { router.push("/settings"); setShowNotifications(false); }}
               className="text-primary cursor-pointer hover:text-on-surface transition-colors p-1"
             >
               <Settings className="w-5 h-5" />
             </button>
-
-            <AnimatePresence>
-              {showSettings && (
-                <motion.div
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute right-0 top-10 w-72 bg-surface-container-high border border-outline-variant/15 rounded-xl shadow-2xl overflow-hidden"
-                >
-                  <div className="px-4 py-3 border-b border-outline-variant/10">
-                    <h3 className="text-sm font-bold text-on-surface font-headline">Settings</h3>
-                  </div>
-                  <div>
-                    {settingsItems.map((item) => (
-                      <div
-                        key={item.label}
-                        onClick={() => handleSettingClick()}
-                        className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-bright/50 transition-colors border-b border-outline-variant/5 last:border-0"
-                      >
-                        <item.icon className="w-4 h-4 text-primary flex-shrink-0" />
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-on-surface">{item.label}</p>
-                          <p className="text-xs text-on-surface-variant">{item.description}</p>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-on-surface-variant/40" />
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
         <img

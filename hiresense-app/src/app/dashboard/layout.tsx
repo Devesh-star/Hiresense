@@ -11,11 +11,13 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PageTransition>
+    <>
       <TopNavBar variant="dashboard" />
       <Sidebar />
-      <main className="ml-64 pt-24 px-8 pb-12">{children}</main>
+      <PageTransition>
+        <main className="ml-64 pt-24 px-8 pb-12">{children}</main>
+      </PageTransition>
       <FloatingChatButton />
-    </PageTransition>
+    </>
   );
 }

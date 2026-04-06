@@ -3,12 +3,16 @@
 import { BadgeCheck, ThumbsUp, ThumbsDown, Trophy, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
-import { verdictData, dashboardData } from "@/data/mockData";
+import { useState, useEffect } from "react";
+import { verdictData as mockVerdictData, dashboardData as mockDashboardData } from "@/data/mockData";
 import {
   StaggerContainer,
   FadeInUp,
   ScaleIn,
 } from "@/components/motion/MotionPrimitives";
+import {
+  RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Tooltip as RechartsTooltip
+} from 'recharts';
 
 const recommendationColors = {
   "Strong Hire": "text-secondary bg-secondary/10 border-secondary/30",
@@ -19,6 +23,29 @@ const recommendationColors = {
 
 export default function VerdictPage() {
   const router = useRouter();
+  const [verdictData, setVerdictData] = useState(mockVerdictData);
+  const [dashboardData, setDashboardData] = useState(mockDashboardData);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const rawReport = sessionStorage.getItem("hiresense_report");
+    if (rawReport) {
+      try {
+        const report = JSON.parse(rawReport);
+        if (report.verdictData) {
+          setVerdictData(report.verdictData);
+        }
+        if (report.dashboardData) {
+          setDashboardData(report.dashboardData);
+        }
+      } catch (err) {
+        console.error("Failed to parse AI report:", err);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) return null;
 
   return (
     <StaggerContainer delayStart={0.05} staggerInterval={0.08}>
@@ -79,35 +106,44 @@ export default function VerdictPage() {
         </div>
       </FadeInUp>
 
-      {/* Category Scores */}
+      {/* Category Scores / Radar Chart & Detailed Analysis */}
       <FadeInUp>
-        <div className="bg-surface-container-low rounded-2xl p-8 mb-8">
-          <h2 className="text-lg font-bold font-headline text-on-surface mb-6">
-            Weighted Score Breakdown
-          </h2>
-          <StaggerContainer className="space-y-4" delayStart={0} staggerInterval={0.06}>
-            {verdictData.categoryScores.map((cat) => (
-              <ScaleIn key={cat.category}>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-semibold text-on-surface w-32">
-                    {cat.category}
-                  </span>
-                  <div className="flex-1 h-3 bg-surface-container-highest rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-primary/60 to-primary"
-                      style={{ width: `${cat.score * 10}%` }}
-                    />
-                  </div>
-                  <span className="text-sm font-bold text-on-surface w-12 text-right">
-                    {cat.score}/10
-                  </span>
-                  <span className="text-xs text-on-surface-variant w-16 text-right">
-                    ×{(cat.weight * 100).toFixed(0)}%
-                  </span>
-                </div>
-              </ScaleIn>
-            ))}
-          </StaggerContainer>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10 relative group">
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+            <h2 className="text-lg font-bold font-headline text-on-surface mb-2">
+              Weighted Score Breakdown
+            </h2>
+            <p className="text-sm text-on-surface-variant mb-6">Interactive view of your performance across key dimensions.</p>
+
+            <div className="h-72 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart cx="50%" cy="50%" outerRadius="70%" data={verdictData.categoryScores}>
+                  <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                  <PolarAngleAxis dataKey="category" tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 12 }} />
+                  <PolarRadiusAxis angle={90} domain={[0, 10]} tick={false} axisLine={false} />
+                  <Radar name="Score" dataKey="score" stroke="#85adff" fill="#85adff" fillOpacity={0.4} />
+                  <RechartsTooltip contentStyle={{ backgroundColor: '#192540', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          <div className="bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10 flex flex-col justify-center">
+             <h2 className="text-lg font-bold font-headline text-on-surface mb-6">
+              Detailed AI Analysis
+            </h2>
+            <div className="space-y-6">
+               <div className="p-4 rounded-xl bg-surface-container-high border border-outline-variant/10">
+                  <h3 className="text-sm font-semibold text-primary mb-2 flex items-center gap-2"><Trophy className="w-4 h-4"/> Key Differentiator</h3>
+                  <p className="text-sm text-on-surface-variant">The candidate&apos;s deep understanding of React internals places them in the top 4% of applicants. Their technical depth significantly outperforms the average pool.</p>
+               </div>
+               <div className="p-4 rounded-xl bg-surface-container-high border border-outline-variant/10">
+                  <h3 className="text-sm font-semibold text-tertiary mb-2 flex items-center gap-2"><TrendingUp className="w-4 h-4"/> Recommendation & Action Plan</h3>
+                  <p className="text-sm text-on-surface-variant">We recommend proceeding with a follow-up interview focusing on System Design edge-cases. The candidate should prioritize succinctness when answering behavioral questions, perhaps using the STAR method.</p>
+               </div>
+            </div>
+          </div>
         </div>
       </FadeInUp>
 
